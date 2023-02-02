@@ -15,11 +15,15 @@ if(isset($_GET['order'])){
                     $name = str_replace(" ", "_", basename($_FILES["files"]["name"][$key]));
                     if(file_exists($folderPath.$name)){
                         // file exist
-                        $nameExplode = explode(".", $name);
+                       # $nameExplode = explode(".", $name);
+                       #bugFix: name contains dots
+                        $fileExtension = ".".pathinfo($name, PATHINFO_EXTENSION); // get file extension with the dot -> .pdf
+                        $fileName = trim($name, $fileExtension); // get only the file name without the dot and the extension
                         $indexName = 0;
                         while(file_exists($folderPath.$name)){
                             $indexName++;
-                            $name = $nameExplode[0]."(".$indexName.").".$nameExplode[1];
+                           # $name = $nameExplode[0]."(".$indexName.").".$nameExplode[1];
+                             $name = $fileName."(".$indexName.").".$fileExtension;
                         }
                     }
                     // success upload
